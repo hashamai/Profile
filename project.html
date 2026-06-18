@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Project details" />
+  <title>Project · Tech Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="page-wrapper">
+    <nav class="nav" aria-label="Main navigation">
+      <div class="container nav-inner">
+        <a href="index.html" class="logo">
+          <span class="logo-dot" aria-hidden="true"></span>
+          <span id="nav-name">Portfolio</span>
+        </a>
+        <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="projects.html">Projects</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="education.html">Education</a></li>
+          <li><a href="recommendations.html">Recommendations</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <main>
+      <div class="container" id="project-content">
+        <p class="loading-text">Loading project…</p>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-inner">
+        <p>© <span id="footer-year"></span> <span id="footer-name">Alex Chen</span>. Built with HTML, CSS & JS.</p>
+        <ul class="footer-links">
+          <li><a href="#" id="footer-github" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="#" id="footer-linkedin" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="projects.html">Projects</a></li>
+        </ul>
+      </div>
+    </footer>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/projects.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    initPortfolioChrome();
+
+    const params = new URLSearchParams(window.location.search);
+    const slug = params.get("slug");
+    const project = getProjectBySlug(slug);
+    const container = document.getElementById("project-content");
+
+    if (!project) {
+      document.title = "Project Not Found · Tech Portfolio";
+      container.innerHTML = `
+        <div class="project-not-found">
+          <p class="section-label">404</p>
+          <h1>Project not found</h1>
+          <p>The project you're looking for doesn't exist or was removed.</p>
+          <a href="projects.html" class="btn btn-primary" style="margin-top:1.5rem">← Back to Projects</a>
+        </div>`;
+    } else {
+      document.title = `${project.title} · Tech Portfolio`;
+      document.querySelector('meta[name="description"]').content = project.summary;
+
+      const tags = project.tags.map((t) => `<span class="tag">${t}</span>`).join("");
+      const paragraphs = project.fullDescription
+        .map((p) => `<p>${p}</p>`)
+        .join("");
+      const highlights = project.highlights
+        ? `<ul class="highlight-list">${project.highlights.map((h) => `<li>${h}</li>`).join("")}</ul>`
+        : "";
+
+      container.innerHTML = `
+        <a href="projects.html" class="back-link">← All Projects</a>
+
+        <header class="project-detail-header">
+          <p class="section-label">Project</p>
+          <h1>${project.title}</h1>
+          <div class="project-tags">${tags}</div>
+          <div class="project-detail-actions">
+            <a href="${project.github}" class="btn btn-primary" target="_blank" rel="noopener">View on GitHub</a>
+          </div>
+        </header>
+
+        <section class="project-section">
+          <h2>Demo Video</h2>
+          ${renderLocalVideo(project)}
+        </section>
+
+        <section class="project-section">
+          <h2>Overview</h2>
+          <div class="project-detail-text">${paragraphs}</div>
+          ${highlights ? `<h3 class="subsection-title">Key Features</h3>${highlights}` : ""}
+        </section>
+
+        ${renderScreenshotGallery(project.screenshots)}`;
+
+      initProjectVideos();
+    }
+  </script>
+</body>
+</html>

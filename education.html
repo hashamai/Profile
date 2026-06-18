@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Education, degrees and certifications" />
+  <title>Education · Tech Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="page-wrapper">
+    <nav class="nav" aria-label="Main navigation">
+      <div class="container nav-inner">
+        <a href="index.html" class="logo">
+          <span class="logo-dot" aria-hidden="true"></span>
+          <span id="nav-name">Portfolio</span>
+        </a>
+        <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="projects.html">Projects</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="education.html">Education</a></li>
+          <li><a href="recommendations.html">Recommendations</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <main>
+      <div class="container">
+        <header class="page-header">
+          <p class="section-label">Background</p>
+          <h1>Education</h1>
+          <p>Degrees, certifications, and continuous learning.</p>
+        </header>
+
+        <div class="timeline" id="timeline"></div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-inner">
+        <p>© <span id="footer-year"></span> <span id="footer-name">Alex Chen</span>. Built with HTML, CSS & JS.</p>
+        <ul class="footer-links">
+          <li><a href="#" id="footer-github" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="#" id="footer-linkedin" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="projects.html">Projects</a></li>
+        </ul>
+      </div>
+    </footer>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    document.getElementById("nav-name").textContent = PORTFOLIO.name.split(" ")[0];
+    document.getElementById("footer-name").textContent = PORTFOLIO.name;
+    document.getElementById("footer-year").textContent = new Date().getFullYear();
+    document.getElementById("footer-github").href = PORTFOLIO.github;
+    document.getElementById("footer-linkedin").href = PORTFOLIO.linkedin;
+
+    const timeline = document.getElementById("timeline");
+    PORTFOLIO.education.forEach((e) => {
+      timeline.innerHTML += `
+        <article class="timeline-item">
+          <p class="timeline-date">${e.date}</p>
+          <h3>${e.degree}</h3>
+          <p class="institution">${e.institution}</p>
+          <p>${e.description}</p>
+        </article>`;
+    });
+  </script>
+</body>
+</html>
