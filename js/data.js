@@ -1,10 +1,10 @@
 const PORTFOLIO = {
   name: "Muhammad Hasham",
   initials: "MH",
-  role: "Software Engineering Student | AI & Full-Stack Developer",
-  tagline: "Building intelligent software systems with AI, backend engineering, and scalable architectures.",
-  bio: "Software Engineering student at FAST-NUCES with experience building production-style systems across AI, machine learning, web development, operating systems, and systems programming. Passionate about Python, FastAPI, React, C++, Linux, and creating impactful software solutions.",
-  
+role:"Software Engineering Student | AI Engineer",
+tagline:"Building AI-powered applications, scalable backend systems, and production-ready software.",
+
+bio:"Software Engineering student at FAST-NUCES currently building an AI-powered stock market analysis platform. Experienced in Python, FastAPI, React, C++, SQL, Linux, machine learning, and data structures, with projects spanning full-stack development, operating systems, and intelligent analytics.",
   email: "hashamrashid55@gmail.com",
   location: "Faisalabad, Punjab, Pakistan",
 
