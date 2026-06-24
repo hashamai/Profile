@@ -4,11 +4,15 @@ const PORTFOLIO = {
   role: "Software Engineering Student | AI & Full-Stack Developer",
   tagline: "Building intelligent software systems with AI, backend engineering, and scalable architectures.",
   bio: "Software Engineering student at FAST-NUCES with experience building production-style systems across AI, machine learning, web development, operating systems, and systems programming. Passionate about Python, FastAPI, React, C++, Linux, and creating impactful software solutions.",
-  email: "your.email@example.com",
+  
+  email: "hashamrashid55@gmail.com",
   location: "Faisalabad, Punjab, Pakistan",
-  github: "https://github.com/yourusername",
-  linkedin: "https://linkedin.com/in/yourusername",
-  twitter: "",
+
+  github: "https://github.com/hashamrashid55-cmd",
+  linkedin: "https://linkedin.com/in/muhammad--hasham",
+  portfolio: "https://hashamrashid55-cmd.github.io/Projects",
+
+  phone: "03027092522",
 
   stats: [
     { value: "10+", label: "Projects" },
