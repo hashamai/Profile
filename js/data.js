@@ -37,28 +37,6 @@ bio:"Software Engineering student at FAST-NUCES currently building an AI-powered
   ],
 
   projects: [
-    {
-      slug: "stock-market-ai",
-      title: "AI Stock Market Analysis Platform",
-      summary:
-        "An AI-powered platform that automates company analysis and generates data-driven investment insights.",
-      fullDescription: [
-        "Currently developing an intelligent stock market platform integrating AI-assisted company research and financial analysis.",
-        "The system automates analysis workflows and helps users evaluate companies using structured data and AI-generated insights.",
-        "Built using Python, FastAPI, React, SQL, and modern backend architecture principles.",
-      ],
-      highlights: [
-        "AI-powered company analysis",
-        "FastAPI backend with REST APIs",
-        "React frontend",
-        "Data-driven investment insights",
-      ],
-      tags: ["Python", "FastAPI", "React", "AI"],
-      github: "https://github.com/yourusername",
-      video: "assets/videos/stock-market-demo.mp4",
-      thumbnail: "assets/images/projects/stock-market.svg",
-      screenshots: [],
-    },
 
     {
       slug: "fitcore",
