@@ -57,7 +57,7 @@ bio:"Software Engineering student at FAST-NUCES currently building an AI-powered
       tags: ["React", "Node.js", "MySQL"],
       github: "https://github.com/hashamrashid55-cmd/Fitness-wellness-Database",
       video: "assets/videos/fitcore-demo.mp4",
-      thumbnail: "assets/images/projects/fitcore.svg",
+      thumbnail: "assets/images/fitcore.png",
       screenshots: [],
     },
 
