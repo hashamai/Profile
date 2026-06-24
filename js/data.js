@@ -80,7 +80,7 @@ bio:"Software Engineering student at FAST-NUCES currently building an AI-powered
       tags: ["Python", "Machine Learning", "Streamlit"],
       github: "https://github.com/Mzt00/MarineGuard",
       video: "assets/videos/marineguard-demo.mp4",
-      thumbnail: "assets/images/projects/marineguard.svg",
+      thumbnail: "assets/images/marine.png",
       screenshots: [],
     },
 
