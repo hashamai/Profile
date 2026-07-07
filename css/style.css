@@ -610,6 +610,213 @@ main {
   border-top: 1px solid var(--border);
 }
 
+/* ── No media placeholder ── */
+.no-media {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 3rem 1.5rem;
+  background: var(--bg-elevated);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-sm);
+  text-align: center;
+}
+
+.no-media-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--accent-dim);
+  color: var(--accent);
+  font-size: 1.1rem;
+  opacity: 0.7;
+}
+
+.no-media p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* ── Documentation section ── */
+.doc-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.doc-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.9rem 1.15rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: inherit;
+  transition: border-color var(--transition), transform var(--transition);
+}
+
+.doc-item:hover {
+  border-color: var(--border-hover);
+  transform: translateX(3px);
+  color: inherit;
+}
+
+.doc-icon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.doc-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.doc-info strong {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.doc-info span {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.doc-download {
+  font-family: var(--font-mono);
+  color: var(--accent);
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.empty-note {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  padding: 1.25rem;
+  background: var(--bg-elevated);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.empty-note code {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--accent);
+}
+
+/* ── Resources page ── */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.filter-btn {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  padding: 0.45rem 1rem;
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.filter-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.filter-btn.active {
+  background: var(--accent-dim);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.resource-feed {
+  display: grid;
+  gap: 1.25rem;
+  max-width: 720px;
+}
+
+.resource-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.resource-card h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.resource-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.resource-meta time {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.resource-type {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid;
+}
+
+.resource-type-book {
+  color: #66aaff;
+  border-color: rgba(102, 170, 255, 0.35);
+  background: rgba(102, 170, 255, 0.1);
+}
+
+.resource-type-notes {
+  color: var(--accent);
+  border-color: rgba(0, 255, 170, 0.35);
+  background: var(--accent-dim);
+}
+
+.resource-type-thought {
+  color: #ffaa66;
+  border-color: rgba(255, 170, 102, 0.35);
+  background: rgba(255, 170, 102, 0.1);
+}
+
+.resource-body p {
+  color: var(--text-muted);
+  font-size: 0.925rem;
+  line-height: 1.7;
+  margin-bottom: 0.75rem;
+}
+
+.resource-body p:last-child {
+  margin-bottom: 0;
+}
+
+.resource-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
+}
+
 .project-not-found {
   text-align: center;
   padding: 4rem 0;

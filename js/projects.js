@@ -16,6 +16,61 @@ function renderLocalVideo(project) {
     </div>`;
 }
 
+function renderNoMedia() {
+  return `
+    <div class="no-media">
+      <span class="no-media-icon" aria-hidden="true">▶</span>
+      <p>No demo video or screenshots available for this project yet.</p>
+    </div>`;
+}
+
+function renderMediaSection(project) {
+  const hasVideo = !!project.video;
+  const hasScreenshots = !!project.screenshots?.length;
+
+  if (!hasVideo && !hasScreenshots) {
+    return `
+      <section class="project-section">
+        <h2>Demo & Media</h2>
+        ${renderNoMedia()}
+      </section>`;
+  }
+
+  if (!hasVideo) return ""; // screenshots are rendered in their own section
+
+  return `
+    <section class="project-section" data-media-section>
+      <h2>Demo Video</h2>
+      ${renderLocalVideo(project)}
+    </section>`;
+}
+
+function renderDocumentsSection(project) {
+  const docs = project.documents;
+
+  const items = docs?.length
+    ? `<div class="doc-list">${docs
+        .map(
+          (d) => `
+          <a class="doc-item" href="${d.file}" target="_blank" rel="noopener" download>
+            <span class="doc-icon" aria-hidden="true">📄</span>
+            <span class="doc-info">
+              <strong>${d.title}</strong>
+              ${d.description ? `<span>${d.description}</span>` : ""}
+            </span>
+            <span class="doc-download" aria-hidden="true">↓</span>
+          </a>`
+        )
+        .join("")}</div>`
+    : `<p class="empty-note">No documents uploaded yet. Add files to <code>assets/docs/</code> and list them in the <code>documents</code> array in <code>js/data.js</code>.</p>`;
+
+  return `
+    <section class="project-section">
+      <h2>Documentation</h2>
+      ${items}
+    </section>`;
+}
+
 function renderScreenshotGallery(screenshots) {
   if (!screenshots?.length) return "";
 
@@ -64,12 +119,25 @@ function initPortfolioChrome() {
   document.getElementById("footer-linkedin").href = PORTFOLIO.linkedin;
 }
 
-function initProjectVideos() {
+function initProjectVideos(project) {
   document.querySelectorAll(".video-wrapper-native video").forEach((video) => {
     const hideHint = () => {
       video.parentElement.querySelector(".video-hint")?.remove();
     };
     video.addEventListener("loadeddata", hideHint);
     video.addEventListener("canplay", hideHint);
+
+    // Video file missing or unplayable → fall back gracefully.
+    const onError = () => {
+      const section = video.closest("[data-media-section]");
+      if (!section) return;
+      if (project?.screenshots?.length) {
+        section.remove(); // screenshots still shown in their own section
+      } else {
+        section.innerHTML = `<h2>Demo & Media</h2>${renderNoMedia()}`;
+      }
+    };
+    video.addEventListener("error", onError);
+    video.querySelector("source")?.addEventListener("error", onError);
   });
 }

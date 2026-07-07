@@ -25,6 +25,7 @@
           <li><a href="about.html">About</a></li>
           <li><a href="education.html">Education</a></li>
           <li><a href="recommendations.html">Recommendations</a></li>
+          <li><a href="resources.html">Resources</a></li>
         </ul>
       </div>
     </nav>
@@ -91,10 +92,7 @@
           </div>
         </header>
 
-        <section class="project-section">
-          <h2>Demo Video</h2>
-          ${renderLocalVideo(project)}
-        </section>
+        ${renderMediaSection(project)}
 
         <section class="project-section">
           <h2>Overview</h2>
@@ -102,9 +100,11 @@
           ${highlights ? `<h3 class="subsection-title">Key Features</h3>${highlights}` : ""}
         </section>
 
-        ${renderScreenshotGallery(project.screenshots)}`;
+        ${renderScreenshotGallery(project.screenshots)}
 
-      initProjectVideos();
+        ${renderDocumentsSection(project)}`;
+
+      initProjectVideos(project);
     }
   </script>
 </body>

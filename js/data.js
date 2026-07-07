@@ -59,6 +59,9 @@ bio:"Software Engineering student at FAST-NUCES currently building an AI-powered
       video: "assets/videos/fitcore-demo.mp4",
       thumbnail: "assets/images/fitcore.png",
       screenshots: [],
+      // Put files in assets/docs/ then list them here, e.g.:
+      // { title: "Architecture", description: "System design overview", file: "assets/docs/fitcore-architecture.pdf" }
+      documents: [],
     },
 
     {
@@ -82,6 +85,34 @@ bio:"Software Engineering student at FAST-NUCES currently building an AI-powered
       video: "assets/videos/marineguard-demo.mp4",
       thumbnail: "assets/images/marine.png",
       screenshots: [],
+      documents: [],
+    },
+
+    {
+      slug: "Getinvestage",
+      title: "Getinvestage",
+      summary:
+        "AI-powered stock market analysis platform with real-time data and a RAG-grounded research assistant.",
+      fullDescription: ["Getinvestage turns scattered, jargon-heavy market data into clear, instant answers — solving the problem every retail investor faces: too much noise, too little insight, and no time to dig through it",
+      "Built on a fast React terminal-style dashboard and a Python/FastAPI backend pulling live data (Finnhub + Yahoo), it puts real-time quotes, charts, and fundamentals in one clean, deployed workspace",
+      "Its RAG-first architecture goes further than a dashboard: a grounded AI research assistant that answers real questions with cited sources and live numbers — not another ChatGPT wrapper, but analysis you can actually trust"
+   ],
+      highlights: [
+"        ⚡ Real-time market data — quotes, charts, fundamentals, and watchlists via Finnhub + Yahoo.",
+"🖥️ Terminal-style dashboard — fast, clean, and built for people who read markets, not decorations.",
+"🤖 Grounded AI assistant (RAG-first) — ask real questions, get answers with citations and live figures.",
+"🛡️ Reliable by design — caching, graceful fallbacks, and handled error states so the data is always there.",
+"🚀 Deployed and open — live URL, CI/CD pipeline, clean FastAPI + React architecture."
+   ],
+      tags: ["Python", "Fast-Api", "RAG", "Agentic AI", "Langchain"],
+      github: "https://github.com/hashamrashid55-cmd/Stock-market",
+      video: "",
+      thumbnail: "assets/images/stockmarket.png",
+      screenshots: [
+        { src: "assets/images/stockmarket.png", caption: "Dashboard overview" },
+        { src: "assets/images/stockmarket2.png", caption: "Market analysis view" },
+      ],
+      documents: [],
     },
 
     {
@@ -105,6 +136,7 @@ bio:"Software Engineering student at FAST-NUCES currently building an AI-powered
       video: "assets/videos/skynet-demo.mp4",
       thumbnail: "assets/images/projects/skynet.svg",
       screenshots: [],
+      documents: [],
     },
 
     {
@@ -128,6 +160,43 @@ bio:"Software Engineering student at FAST-NUCES currently building an AI-powered
       video: "assets/videos/leunuxos-demo.mp4",
       thumbnail: "assets/images/projects/leunuxos.svg",
       screenshots: [],
+      documents: [],
+    },
+  ],
+
+  // Resources page — books, notes, and blog-style thoughts.
+  // type: "book" | "notes" | "thought"
+  // Optional per entry: file (download — put files in assets/resources/), link (external URL), tags
+  resources: [
+    {
+      type: "thought",
+      title: "Welcome to my resources page",
+      date: "2026-07-06",
+      tags: ["Meta"],
+      body: [
+        "This is where I share books I'm reading, course notes, and my thoughts on software engineering and AI.",
+        "To add a post, edit the resources array in js/data.js — each entry becomes a card on this page, newest first.",
+      ],
+    },
+    {
+      type: "notes",
+      title: "Data Structures & Algorithms Notes",
+      date: "2026-07-05",
+      tags: ["C++", "DSA"],
+      body: [
+        "Working notes from my data structures coursework at FAST-NUCES — AVL trees, heaps, graphs, and hash tables, including the implementations used in the SkyNet ATC simulator.",
+      ],
+      // file: "assets/resources/dsa-notes.pdf",
+    },
+    {
+      type: "book",
+      title: "Currently Reading",
+      date: "2026-07-04",
+      tags: ["Reading List"],
+      body: [
+        "Add books here with a short review or key takeaways. Attach a link to the book, or a PDF of your summary notes.",
+      ],
+      // link: "https://example.com/book",
     },
   ],
 
