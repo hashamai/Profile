@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Tooling state
+.gstack/
+
+# OS files
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+
+# Logs
+*.log
