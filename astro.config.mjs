@@ -1,10 +1,11 @@
 import { defineConfig } from "astro/config";
 
-// Set `site` to the final deployed URL so OG tags resolve to absolute URLs.
-// NOTE: if deploying to GitHub Pages as a *project* site
-// `base: "/Project_page"` and prefix internal links with import.meta.env.BASE_URL.
-// A user site (hashamai.github.io repo) or Vercel/Netlify needs no base.
+// Deployed at https://hashamai.github.io/Profile/ — a GitHub Pages *project*
+// site, so `base` must match the repo name (/Profile) exactly (case-sensitive).
+// `site` is the domain, used for absolute OG/sitemap URLs.
+// If you ever rename the repo to `hashamai.github.io` (a user site), drop the
+// `base` line — it would then serve from the root.
 export default defineConfig({
   site: "https://hashamai.github.io",
-  base: "/Project_page",
+  base: "/Profile",
 });
