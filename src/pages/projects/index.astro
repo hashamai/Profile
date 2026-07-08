@@ -1,0 +1,104 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import Panel from "../../components/Panel.astro";
+
+const projects = (await getCollection("projects")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+
+const total = projects.length;
+const count = (s: string) => projects.filter((p) => p.data.status === s).length;
+const statsLine = `TOTAL: ${total} · SHIPPED: ${count("SHIPPED")} · WIP: ${count("WIP")} · RESEARCH: ${count("RESEARCH")}`;
+
+const featured = projects.filter((p) => p.data.featured && p.data.screenshots.length).slice(0, 2);
+const pad3 = (n: number) => String(n).padStart(3, "0");
+---
+
+<Base
+  active="projects"
+  title="Projects — InsiderByHasham"
+  description="Project index — shipped tools, works in progress, and research."
+>
+  <div class="pt-28" style="min-height: 70vh;">
+    <section class="panel index-hero">
+      <div class="prompt"><span class="ps1">hasham@insider:~$</span> ls -la ./projects</div>
+      <div class="headline">
+        <h1>PROJECT.INDEX</h1>
+        <span class="stats-line">{statsLine}</span>
+      </div>
+    </section>
+
+    <div class="panel attached">
+      <div class="tbl-head grid-projects">
+        <span>ID</span><span>PROJECT</span><span class="col-desc">DESCRIPTION</span><span
+          class="col-stack">STACK</span
+        ><span>STATUS</span><span class="col-year">YEAR</span><span class="right">LINK</span>
+      </div>
+      {
+        projects.map((p) => (
+          <a class="tbl-row grid-projects" href={`/projects/${p.id}`}>
+            <span class="dim">{pad3(p.data.order)}</span>
+            <span class="name">{p.data.title}</span>
+            <span class="dim col-desc" style="line-height: 1.5;">
+              {p.data.pitch}
+            </span>
+            <span class="dim col-stack">{p.data.stack[0]}</span>
+            <span class={p.data.status === "SHIPPED" ? "status-shipped" : "status-dim"}>
+              {p.data.status}
+            </span>
+            <span class="dim col-year">{p.data.year}</span>
+            {p.data.links.live || p.data.links.source ? (
+              <span
+                class="open-link"
+                data-external={p.data.links.live || p.data.links.source}
+                role="link"
+                tabindex="0"
+              >
+                open ↗
+              </span>
+            ) : (
+              <span class="dim right">—</span>
+            )}
+          </a>
+        ))
+      }
+    </div>
+
+    <div class="captures-row">
+      {
+        featured.map((p) => (
+          <Panel label={`FEATURED.CAPTURE — ${pad3(p.data.order)}`} meta="1280×800">
+            <a href={`/projects/${p.id}`} aria-label={`Open ${p.data.title}`}>
+              <div class="capture-frame">
+                <img
+                  src={p.data.screenshots[0].src}
+                  alt={p.data.screenshots[0].alt}
+                  loading="lazy"
+                  width="1280"
+                  height="800"
+                />
+              </div>
+            </a>
+          </Panel>
+        ))
+      }
+    </div>
+  </div>
+
+  <script>
+    // The whole row navigates to the detail page; the LINK cell opens the
+    // external live/repo URL instead without triggering the row link.
+    document.querySelectorAll<HTMLElement>("[data-external]").forEach((el) => {
+      const open = (e: Event) => {
+        e.preventDefault();
+        e.stopPropagation();
+        window.open(el.dataset.external!, "_blank", "noopener");
+      };
+      el.addEventListener("click", open);
+      el.addEventListener("keydown", (e) => {
+        if ((e as KeyboardEvent).key === "Enter") open(e);
+      });
+    });
+  </script>
+</Base>

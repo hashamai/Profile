@@ -1,0 +1,43 @@
+---
+import { getCollection, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import { readingTime, fmtDate } from "../../lib/site.ts";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const minutes = readingTime(post.body ?? "");
+---
+
+<Base
+  active="blog"
+  title={`${post.data.title} — InsiderByHasham`}
+  description={post.data.description ?? post.data.title}
+  ogType="article"
+>
+  <div class="pt-28">
+    <div class="breadcrumb" style="margin-bottom: 14px;">
+      <div class="prompt">
+        <span class="ps1">hasham@insider:~$</span> cat ./blog/{post.id}.md
+      </div>
+      <a class="back-link" href="/blog">← BACK TO INDEX</a>
+    </div>
+
+    <article class="article">
+      <header class="panel" style="padding: 20px 24px;">
+        <h1>{post.data.title}</h1>
+        <div class="article-meta">
+          {fmtDate(post.data.date)} · {post.data.tags.join(" · ")} · {minutes} MIN READ
+          {post.data.pinned && <span class="pinned-chip">PINNED</span>}
+        </div>
+      </header>
+      <div class="article-body" style="margin-top: 20px;">
+        <Content />
+      </div>
+    </article>
+  </div>
+</Base>

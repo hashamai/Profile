@@ -1,0 +1,126 @@
+---
+import { getCollection, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import Panel from "../../components/Panel.astro";
+
+export async function getStaticPaths() {
+  const projects = (await getCollection("projects")).sort(
+    (a, b) => a.data.order - b.data.order,
+  );
+  return projects.map((project, i) => ({
+    params: { slug: project.id },
+    props: {
+      project,
+      prev: i > 0 ? projects[i - 1] : null,
+      next: i < projects.length - 1 ? projects[i + 1] : null,
+    },
+  }));
+}
+
+const { project, prev, next } = Astro.props;
+const { Content } = await render(project);
+const d = project.data;
+const shots = d.screenshots;
+---
+
+<Base
+  active="projects"
+  title={`${d.title} — InsiderByHasham`}
+  description={d.pitch}
+  ogType="article"
+>
+  <div class="pt-28" style="min-height: 70vh;">
+    <div class="breadcrumb" style="margin-bottom: 14px;">
+      <div class="prompt">
+        <span class="ps1">hasham@insider:~$</span> cat ./projects/{project.id}
+      </div>
+      <a class="back-link" href="/projects">← BACK TO INDEX</a>
+    </div>
+
+    <section class="panel hero-panel detail-hero">
+      <div>
+        <h1>{d.title}</h1>
+        <div class="hero-sub">{d.pitch}</div>
+        <div style="margin-top: 12px;">
+          <span class:list={["status-chip", d.status === "SHIPPED" && "shipped"]}>{d.status}</span>
+        </div>
+      </div>
+      <div style="flex: 1;"></div>
+      <div>
+        <div class="detail-kv">
+          <span class="k">STACK</span><span>{d.stack.join(" · ")}</span>
+          <span class="k">YEAR</span><span>{d.year}</span>
+          <span class="k">ROLE</span><span>{d.role}</span>
+          <span class="k">STATUS</span><span>{d.status}</span>
+        </div>
+        <div class="chip-row" style="margin-top: 12px;">
+          {d.links.live && <a class="chip" href={d.links.live} target="_blank" rel="noopener">LIVE ↗</a>}
+          {d.links.source && <a class="chip" href={d.links.source} target="_blank" rel="noopener">SOURCE ↗</a>}
+        </div>
+      </div>
+    </section>
+
+    {
+      shots.length > 0 && (
+        <Panel label="CAPTURES" meta={`${shots.length} × 1280×800`} class="mt-16">
+          <div class="gallery-hero">
+            <img
+              src={shots[0].src}
+              alt={shots[0].alt}
+              data-gallery-hero
+              width="1280"
+              height="800"
+            />
+          </div>
+          {shots.length > 1 && (
+            <div class="gallery-thumbs">
+              {shots.map((s, i) => (
+                <button
+                  type="button"
+                  data-gallery-thumb={s.src}
+                  data-alt={s.alt}
+                  aria-current={i === 0 ? "true" : "false"}
+                  aria-label={`Show ${s.alt}`}
+                >
+                  <img src={s.src} alt="" loading="lazy" width="1280" height="800" />
+                </button>
+              ))}
+            </div>
+          )}
+        </Panel>
+      )
+    }
+
+    <Panel label="BRIEF" meta={`./projects/${project.id}.md`} class="mt-16">
+      <div class="brief-body">
+        <Content />
+      </div>
+    </Panel>
+
+    <Panel label="STACK.DUMP" meta={`${d.stack.length} LOADED`} class="mt-16">
+      <div class="stack-dump chip-row">
+        {d.stack.map((tech) => <span class="chip">{tech}</span>)}
+      </div>
+    </Panel>
+
+    <div class="prevnext">
+      {prev ? <a href={`/projects/${prev.id}`}>← {prev.data.title}</a> : <span />}
+      {next ? <a href={`/projects/${next.id}`}>{next.data.title} →</a> : <span />}
+    </div>
+  </div>
+
+  <script>
+    // Clicking a thumbnail swaps it into the large view.
+    const hero = document.querySelector<HTMLImageElement>("[data-gallery-hero]");
+    const thumbs = document.querySelectorAll<HTMLButtonElement>("[data-gallery-thumb]");
+    thumbs.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        if (!hero) return;
+        hero.src = btn.dataset.galleryThumb!;
+        hero.alt = btn.dataset.alt || "";
+        thumbs.forEach((b) => b.setAttribute("aria-current", "false"));
+        btn.setAttribute("aria-current", "true");
+      });
+    });
+  </script>
+</Base>

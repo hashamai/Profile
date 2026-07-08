@@ -1,0 +1,202 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import Panel from "../components/Panel.astro";
+import {
+  SITE,
+  ABOUT_PARAGRAPHS,
+  EDUCATION,
+  CERTS,
+  COVERAGE_SCOPE,
+  NOW_LOG,
+  TOOLKIT,
+  RESOURCES,
+  MANUAL_ACTIVITY,
+  fmtDate,
+} from "../lib/site.ts";
+
+const posts = (await getCollection("blog")).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+
+// Coverage matrix: post counts + latest date per sector, computed from tags.
+const SECTORS = ["AI", "TECH", "MARKETS", "RESEARCH"] as const;
+const coverage = SECTORS.map((sector) => {
+  const tagged = posts.filter((p) => p.data.tags.includes(sector));
+  return {
+    sector,
+    scope: COVERAGE_SCOPE[sector],
+    posts: tagged.length,
+    updated: tagged.length ? fmtDate(tagged[0].data.date) : "—",
+  };
+});
+
+// Activity log: PUBLISHED events from newest posts + manual PUSHED/SHIPPED
+// events, merged and sorted, last 4.
+const published = posts.slice(0, 3).map((p) => ({
+  ts: `${fmtDate(p.data.date)} 09:00`,
+  verb: "PUBLISHED",
+  text: "",
+  linkText: `"${p.data.title}"`,
+  href: `/blog/${p.id}`,
+}));
+const activity = [...published, ...MANUAL_ACTIVITY]
+  .sort((a, b) => b.ts.localeCompare(a.ts))
+  .slice(0, 4);
+---
+
+<Base active="profile">
+  <div class="pt-28">
+    <section class="panel hero-panel">
+      <div>
+        <div class="prompt"><span class="ps1">hasham@insider:~$</span> whoami --verbose</div>
+        <h1>Muhammad Hasham<span class="cursor">▮</span></h1>
+        <div class="hero-sub">
+          "Software Engineering student at FAST-NUCES currently building an AI-powered stock market analysis platform. Experienced in Python, FastAPI, React, C++, SQL, Linux, machine learning, and data structures, with projects spanning full-stack development, operating systems, and intelligent analytics."        </div>
+      </div>
+      <div style="flex: 1;"></div>
+      <div class="kv">
+        <span class="k">STATUS</span><span class="accent">● ONLINE</span>
+        <span class="k">MODE</span><span>INDEPENDENT</span>
+        <span class="k">BIAS</span><span>EVIDENCE</span>
+      </div>
+    </section>
+
+    <div class="two-col">
+      <div class="col-left">
+        <Panel label="ID.CARD" meta="REC.001">
+          <div style="padding: 14px;">
+            <div class="headshot">
+              <img src="/headshot-placeholder.svg" alt="[Headshot of Hasham]" width="400" height="400" />
+            </div>
+            <div class="id-grid">
+              <span class="k">HANDLE</span><span>{SITE.handle}</span>
+              <span class="k">ROLE</span><span>{SITE.role}</span>
+              <span class="k">LOC</span><span>{SITE.location}</span>
+              <span class="k">FOCUS</span><span>{SITE.focus}</span>
+              <span class="k">OPEN TO</span><span style="color: var(--accent);">{SITE.openTo}</span>
+            </div>
+            <div class="id-links chip-row">
+              <a class="chip" href={SITE.links.github} target="_blank" rel="noopener">GITHUB ↗</a>
+              <a class="chip" href={SITE.links.linkedin} target="_blank" rel="noopener">LINKEDIN ↗</a>
+              <a class="chip" href={SITE.links.x} target="_blank" rel="noopener">X ↗</a>
+              <a class="chip" href={SITE.links.email}>EMAIL ↗</a>
+            </div>
+          </div>
+        </Panel>
+      </div>
+
+      <div class="col-right">
+       
+
+        <Panel label="EDUCATION.REC" meta={`${EDUCATION.length} RECORDS`}>
+          <div class="tbl-head grid-education">
+            <span>DEGREE</span><span>INSTITUTION</span><span class="col-years">YEARS</span><span
+              class="col-result">RESULT</span
+            >
+          </div>
+          {
+            EDUCATION.map((e) => (
+              <div class="tbl-row grid-education hoverable">
+                <span style="font-weight: 700;">{e.degree}</span>
+                <span class="dim">{e.institution}</span>
+                <span class="dim col-years">{e.years}</span>
+                <span class="dim col-result">{e.result}</span>
+              </div>
+            ))
+          }
+          <div class="tbl-row grid-education hoverable" style="border-top: 1px solid var(--line);">
+            <span style="font-weight: 700;">CERTS</span>
+            <span class="dim" style="grid-column: 2 / -1;">{CERTS}</span>
+          </div>
+
+        </Panel>
+           <Panel label="Experience.TXT" meta="1.2 KB">
+          <div class="panel-body about-body">
+            {ABOUT_PARAGRAPHS.map((p) => <p>{p}</p>)}
+          </div>
+        </Panel>
+
+        <Panel label="COVERAGE.MATRIX" meta="4 SECTORS">
+          <div class="tbl-head grid-coverage">
+            <span>SECTOR</span><span>SCOPE</span><span class="right">POSTS</span><span class="right"
+              >UPDATED</span
+            >
+          </div>
+          {
+            coverage.map((c) => (
+              <div class="tbl-row grid-coverage hoverable">
+                <span style="font-weight: 700;">{c.sector}</span>
+                <span class="dim">{c.scope}</span>
+                <span class="right">{c.posts}</span>
+                <span class="right dim">{c.updated}</span>
+              </div>
+            ))
+          }
+        </Panel>
+
+        <div class="side-by-side">
+          <Panel label="NOW.LOG" meta="tail -3">
+            <div class="log-grid">
+              {
+                NOW_LOG.map((row) => (
+                  <>
+                    <span class="k">{row.key}</span>
+                    <span class="v">{row.value}</span>
+                  </>
+                ))
+              }
+            </div>
+          </Panel>
+          <Panel label="TOOLKIT.SYS" meta={`${TOOLKIT.length} LOADED`}>
+            <div class="toolkit-grid">
+              {
+                TOOLKIT.map((t) => (
+                  <>
+                    <span>{t.tool}</span>
+                    <span class="bar">
+                      {t.bar} <span class="freq">{t.freq}</span>
+                    </span>
+                  </>
+                ))
+              }
+            </div>
+          </Panel>
+        </div>
+      </div>
+    </div>
+
+    <Panel label="RESOURCES.DIR" meta="CURATED — NO AFFILIATES" class="mt-16">
+      <div class="tbl-head grid-resources">
+        <span>NAME</span><span>TYPE</span><span class="col-why">WHY IT'S HERE</span><span
+          class="right">LINK</span
+        >
+      </div>
+      {
+        RESOURCES.map((r) => (
+          <div class="tbl-row grid-resources hoverable">
+            <span style="font-weight: 700;">{r.name}</span>
+            <span class="dim">{r.type}</span>
+            <span class="dim col-why">{r.why}</span>
+            <a class="open-link" href={r.href} target="_blank" rel="noopener">
+              open ↗
+            </a>
+          </div>
+        ))
+      }
+    </Panel>
+
+    <Panel label="ACTIVITY.LOG" meta="LAST 4 EVENTS" class="mt-16">
+      <div class="activity-body">
+        {
+          activity.map((a) => (
+            <div>
+              <span class="ts">{a.ts}</span> · {a.verb} {a.text ? a.text + " " : ""}
+              <a href={a.href}>{a.linkText}</a>
+            </div>
+          ))
+        }
+      </div>
+    </Panel>
+  </div>
+</Base>

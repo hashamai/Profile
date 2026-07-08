@@ -1,0 +1,139 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  active?: "profile" | "projects" | "blog";
+  ogType?: string;
+}
+
+const {
+  title = "InsiderByHasham",
+  description = "",
+  active,
+  ogType = "website",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site)} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script is:inline>
+      // Apply persisted theme + CRT setting before first paint (no flash).
+      (() => {
+        if (localStorage.getItem("ibh-theme") === "light") {
+          document.documentElement.classList.add("light");
+        }
+        if (localStorage.getItem("ibh-scanlines") === "off") {
+          document.documentElement.classList.add("crt-off");
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div class="scanlines" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <div class="container inner">
+        <a href="/" class="brand">
+          <span class="badge">IBH</span>
+          <span>INSIDER_BY_HASHAM</span>
+          <span class="ver">v2.6.0</span>
+        </a>
+        <div style="flex: 1;"></div>
+        <nav class="site-nav" aria-label="Main">
+          <a href="/" aria-current={active === "profile" ? "page" : undefined}>[1] PROFILE</a>
+          <a href="/projects" aria-current={active === "projects" ? "page" : undefined}>[2] PROJECTS</a>
+          <a href="/blog" aria-current={active === "blog" ? "page" : undefined}>[3] BLOG</a>
+        </nav>
+        <div class="clock" data-clock>
+          <span data-clock-date></span>
+          <span class="time" data-clock-time></span>
+        </div>
+        <button class="chrome-btn" data-theme-toggle title="toggle dark / light">◐ THEME</button>
+        <button class="chrome-btn" data-crt-toggle title="toggle CRT scanlines">▓ CRT</button>
+      </div>
+    </header>
+
+    <div class="ticker" aria-hidden="true">
+      <div class="track">
+        <span
+          >SYS: AI /// TECH /// RESEARCH // MACHINE LEARNING // DEEP LEARNING ··· EST.2026 ···</span
+        >
+        <span
+          >SYS: AI /// TECH /// RESEARCH // MACHINE LEARNING // DEEP LEARNING ··· EST.2026 ···</span
+        >
+      </div>
+    </div>
+
+    <main class="container">
+      <slot />
+    </main>
+
+    <footer class="status-bar">
+      <div class="container inner" style="padding-left: 24px; padding-right: 24px;">
+        <span>[1][2][3] SWITCH TAB · ◐ THEME</span>
+        <span>© 2026 INSIDER_BY_HASHAM — NOT FINANCIAL ADVICE, JUST SIGNAL</span>
+        <span>SYNC <span class="time" data-sync-time></span></span>
+      </div>
+    </footer>
+
+    <script>
+      // Live clock (header + footer SYNC), ticks every second.
+      const p2 = (x: number) => String(x).padStart(2, "0");
+      const DAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+      const dateEl = document.querySelector("[data-clock-date]");
+      const timeEl = document.querySelector("[data-clock-time]");
+      const syncEl = document.querySelector("[data-sync-time]");
+
+      function tick() {
+        const n = new Date();
+        const date = `${n.getFullYear()}-${p2(n.getMonth() + 1)}-${p2(n.getDate())} ${DAYS[n.getDay()]}`;
+        const time = `${p2(n.getHours())}:${p2(n.getMinutes())}:${p2(n.getSeconds())}`;
+        if (dateEl) dateEl.textContent = date + " ";
+        if (timeEl) timeEl.textContent = time;
+        if (syncEl) syncEl.textContent = time;
+      }
+      tick();
+      setInterval(tick, 1000);
+
+      // Theme toggle, persisted to localStorage.
+      document.querySelector("[data-theme-toggle]")?.addEventListener("click", () => {
+        const light = document.documentElement.classList.toggle("light");
+        localStorage.setItem("ibh-theme", light ? "light" : "dark");
+      });
+
+      // CRT scanlines toggle, persisted.
+      document.querySelector("[data-crt-toggle]")?.addEventListener("click", () => {
+        const off = document.documentElement.classList.toggle("crt-off");
+        localStorage.setItem("ibh-scanlines", off ? "off" : "on");
+      });
+
+      // Keyboard 1/2/3 route navigation (ignored inside inputs).
+      window.addEventListener("keydown", (e) => {
+        const t = e.target as HTMLElement | null;
+        if (t && /INPUT|TEXTAREA|SELECT/.test(t.tagName)) return;
+        if (e.metaKey || e.ctrlKey || e.altKey) return;
+        if (e.key === "1") location.href = "/";
+        if (e.key === "2") location.href = "/projects";
+        if (e.key === "3") location.href = "/blog";
+      });
+    </script>
+  </body>
+</html>
