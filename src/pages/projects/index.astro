@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import Panel from "../../components/Panel.astro";
+import { withBase } from "../../lib/site.ts";
 
 const projects = (await getCollection("projects")).sort(
   (a, b) => a.data.order - b.data.order,
@@ -37,7 +38,7 @@ const pad3 = (n: number) => String(n).padStart(3, "0");
       </div>
       {
         projects.map((p) => (
-          <a class="tbl-row grid-projects" href={`/projects/${p.id}`}>
+          <a class="tbl-row grid-projects" href={withBase(`/projects/${p.id}`)}>
             <span class="dim">{pad3(p.data.order)}</span>
             <span class="name">{p.data.title}</span>
             <span class="dim col-desc" style="line-height: 1.5;">
@@ -69,10 +70,10 @@ const pad3 = (n: number) => String(n).padStart(3, "0");
       {
         featured.map((p) => (
           <Panel label={`FEATURED.CAPTURE — ${pad3(p.data.order)}`} meta="1280×800">
-            <a href={`/projects/${p.id}`} aria-label={`Open ${p.data.title}`}>
+            <a href={withBase(`/projects/${p.id}`)} aria-label={`Open ${p.data.title}`}>
               <div class="capture-frame">
                 <img
-                  src={p.data.screenshots[0].src}
+                  src={withBase(p.data.screenshots[0].src)}
                   alt={p.data.screenshots[0].alt}
                   loading="lazy"
                   width="1280"

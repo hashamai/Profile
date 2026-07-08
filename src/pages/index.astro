@@ -13,6 +13,7 @@ import {
   RESOURCES,
   MANUAL_ACTIVITY,
   fmtDate,
+  withBase,
 } from "../lib/site.ts";
 
 const posts = (await getCollection("blog")).sort(
@@ -67,7 +68,7 @@ const activity = [...published, ...MANUAL_ACTIVITY]
         <Panel label="ID.CARD" meta="REC.001">
           <div style="padding: 14px;">
             <div class="headshot">
-              <img src="/headshot-placeholder.svg" alt="[Headshot of Hasham]" width="400" height="400" />
+              <img src={withBase("/headshot-placeholder.svg")} alt="[Headshot of Hasham]" width="400" height="400" />
             </div>
             <div class="id-grid">
               <span class="k">HANDLE</span><span>{SITE.handle}</span>
@@ -192,7 +193,7 @@ const activity = [...published, ...MANUAL_ACTIVITY]
           activity.map((a) => (
             <div>
               <span class="ts">{a.ts}</span> · {a.verb} {a.text ? a.text + " " : ""}
-              <a href={a.href}>{a.linkText}</a>
+              <a href={withBase(a.href)}>{a.linkText}</a>
             </div>
           ))
         }

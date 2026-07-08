@@ -121,3 +121,13 @@ export function fmtDate(d: Date): string {
   const p2 = (x: number) => String(x).padStart(2, "0");
   return `${d.getFullYear()}-${p2(d.getMonth() + 1)}-${p2(d.getDate())}`;
 }
+
+// Prefix internal (root-relative) links and asset paths with the configured
+// base path so they resolve when the site is served from a subpath (GitHub
+// Pages project site at /Project_page/). External URLs, anchors (#), and
+// mailto: are returned unchanged, so it's safe to wrap any href.
+export function withBase(path: string): string {
+  if (!path.startsWith("/")) return path;
+  const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+  return base + path;
+}

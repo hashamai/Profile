@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
-import { readingTime, fmtDate } from "../../lib/site.ts";
+import { readingTime, fmtDate, withBase } from "../../lib/site.ts";
 
 const posts = (await getCollection("blog")).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
@@ -36,7 +36,7 @@ const statsLine = `${posts.length} ENTRIES · AI(${tagCount("AI")}) TECH(${tagCo
       </div>
       {
         withMeta.map((p) => (
-          <a class="tbl-row grid-blog" href={`/blog/${p.id}`}>
+          <a class="tbl-row grid-blog" href={withBase(`/blog/${p.id}`)}>
             <span class="dim">{fmtDate(p.data.date)}</span>
             <span>
               <span class="name">{p.data.title}</span>

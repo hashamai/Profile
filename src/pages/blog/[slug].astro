@@ -1,7 +1,7 @@
 ---
 import { getCollection, render } from "astro:content";
 import Base from "../../layouts/Base.astro";
-import { readingTime, fmtDate } from "../../lib/site.ts";
+import { readingTime, fmtDate, withBase } from "../../lib/site.ts";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
@@ -24,7 +24,7 @@ const minutes = readingTime(post.body ?? "");
       <div class="prompt">
         <span class="ps1">hasham@insider:~$</span> cat ./blog/{post.id}.md
       </div>
-      <a class="back-link" href="/blog">← BACK TO INDEX</a>
+      <a class="back-link" href={withBase("/blog")}>← BACK TO INDEX</a>
     </div>
 
     <article class="article">
