@@ -36,16 +36,9 @@ const statsLine = `${posts.length} ENTRIES · AI(${tagCount("AI")}) TECH(${tagCo
       </div>
       {
         withMeta.map((p) => (
-          
-          <a class="tbl-row grid-blog" href={withBase(`/blog/${p.id}`)}>
-            <span class="dim">{fmtDate(p.data.date)}</span>
-            <span>
-              <span class="name">{p.data.title}</span>
-              {p.data.pinned && <span class="pinned-chip">PINNED</span>}
-            </span>
-            <span class="dim col-tags">{p.data.tags.join(" · ")}</span>
-            <span class="right dim col-min">{p.minutes}</span>
-            <span class="open-link">read ↗</span>
+
+          <a class="tbl-row grid-blog" href={withBase(`blog/ai-bubble.html)}>
+           
           </a>
         ))
       }
