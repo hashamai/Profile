@@ -6,8 +6,7 @@ pinned: true
 description: "[One-line summary of the post for SEO/OG — replace me]"
 ---
 
-
-# The AI Infrastructure Bet
+![The AI Infrastructure Bet — a $725B/yr compute build-out](./images/ai-bet-hero.svg)
 
 **Research Brief · Capital Markets · Q2 2026**
 
@@ -57,6 +56,8 @@ DRAM Price Index (2024 = 100)
 Price rise: +45% in 18 months
 ```
 
+![Memory price index 2024–2026: DRAM +45%, HBM +50%](./images/dram-price-index.svg)
+
 | Metric | 2024 | 2026 | Change |
 |--------|------|------|--------|
 | DRAM spot price ($/GB) | $3.20 | $4.65 | +45% |
@@ -96,6 +97,8 @@ REVENUE REQUIRED TO JUSTIFY CAPEX
 └─────────────────────────────────────────────────┘
 ```
 
+![AI revenue required (~$2,900B) versus realized (~$75B) — a roughly 37× shortfall](./images/revenue-gap.svg)
+
 | Revenue Stream | 2026E | Share |
 |---|---:|---|
 | Frontier LLMs (OpenAI, Anthropic, DeepSeek) | $18B | 24% |
@@ -133,6 +136,8 @@ Most corporate AI implementations are not generating documented returns. Early s
 ╚═══════════════════════════════════════════════╝
 ```
 
+![Perceived ROI from AI projects: 28% positive, 54% neutral, 18% negative](./images/enterprise-roi.svg)
+
 **Specific signals:**
 - McKinsey (2025): 40% of enterprise AI pilot projects fail to move to production
 - Deloitte: average deployment cost is 3–4× initial estimate
@@ -161,6 +166,8 @@ Average      12.75%  34%     38.5%
 
 Historical norms: 10–15%
 ```
+
+![Capex as % of operating cash flow by hyperscaler, 2020 vs 2025 vs 2026, all above the 10–15% norm](./images/hyperscaler-capex.svg)
 
 This is aggressive. A 38% capex-to-OCF ratio leaves limited margin for error. If revenue disappoints, debt service becomes problematic.
 
@@ -234,6 +241,8 @@ Britain authorized              Millions of miles laid;        $725B/yr capex;
 9,500 miles of rail;            97% unused → market crash     usage/demand unclear
 ⅓ never built → burst                                         
 ```
+
+![Timeline of infrastructure overbuilds: 1846 railways, 2000 telecom fiber, 2026 AI data centers](./images/overbuild-timeline.svg)
 
 | Bubble | Time | Technology | Capex | Outcome |
 |---|---|---|---|---|

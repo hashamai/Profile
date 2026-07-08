@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 200" font-family="'JetBrains Mono', ui-monospace, monospace" role="img" aria-label="The AI Infrastructure Bet — 725 billion dollar annual compute build-out">
+  <rect x="0.5" y="0.5" width="719" height="199" fill="#0e1111" stroke="rgba(217,226,217,0.16)"/>
+  <!-- faint rising bars motif -->
+  <g opacity="0.16" fill="#33ff66">
+    <rect x="470" y="150" width="20" height="34"/>
+    <rect x="500" y="128" width="20" height="56"/>
+    <rect x="530" y="100" width="20" height="84"/>
+    <rect x="560" y="70"  width="20" height="114"/>
+    <rect x="590" y="44"  width="20" height="140"/>
+    <rect x="620" y="26"  width="20" height="158"/>
+    <rect x="650" y="14"  width="20" height="170"/>
+  </g>
+  <text x="28" y="52" fill="#6f7a71" font-size="11" letter-spacing="2">RESEARCH BRIEF · CAPITAL MARKETS · Q2 2026</text>
+  <text x="26" y="104" fill="#d9e2d9" font-size="34" font-weight="800">THE AI INFRASTRUCTURE BET</text>
+  <text x="28" y="140" fill="#33ff66" font-size="14" font-weight="700">$725B / yr</text>
+  <text x="132" y="140" fill="#6f7a71" font-size="12">compute build-out — proportionate to demand, or overbuild?</text>
+  <line x1="28" y1="164" x2="692" y2="164" stroke="rgba(217,226,217,0.12)"/>
+  <text x="28" y="184" fill="#6f7a71" font-size="10.5">≈ 94% of operating cash flow · 9–10× revenue gap · early substitution visible</text>
+</svg>

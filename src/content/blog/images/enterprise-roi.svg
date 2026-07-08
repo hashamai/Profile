@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 260" font-family="'JetBrains Mono', ui-monospace, monospace" role="img" aria-label="Enterprise AI ROI: 28 percent positive, 54 percent neutral or unclear, 18 percent negative">
+  <rect x="0.5" y="0.5" width="719" height="259" fill="#0e1111" stroke="rgba(217,226,217,0.16)"/>
+  <text x="24" y="34" fill="#33ff66" font-size="13" font-weight="700">▌ PERCEIVED ROI FROM AI PROJECTS</text>
+  <text x="24" y="54" fill="#6f7a71" font-size="11">Survey of 500+ firms — 72% report no clear financial benefit</text>
+
+  <!-- stacked bar -->
+  <rect x="70"    y="90" width="173.6" height="44" fill="#33ff66" opacity="0.85"/>
+  <rect x="243.6" y="90" width="334.8" height="44" fill="#6f7a71"/>
+  <rect x="578.4" y="90" width="111.6" height="44" fill="#3a4038"/>
+  <rect x="70" y="90" width="620" height="44" fill="none" stroke="rgba(217,226,217,0.20)"/>
+
+  <!-- segment % labels -->
+  <text x="156.8" y="118" fill="#04140a" font-size="13" font-weight="700" text-anchor="middle">28%</text>
+  <text x="411"   y="118" fill="#0e1111" font-size="13" font-weight="700" text-anchor="middle">54%</text>
+  <text x="634.2" y="118" fill="#d9e2d9" font-size="13" font-weight="700" text-anchor="middle">18%</text>
+
+  <!-- legend -->
+  <g font-size="11">
+    <rect x="70"  y="168" width="12" height="12" fill="#33ff66" opacity="0.85"/>
+    <text x="90"  y="178" fill="#6f7a71">Positive ROI</text>
+    <rect x="230" y="168" width="12" height="12" fill="#6f7a71"/>
+    <text x="250" y="178" fill="#6f7a71">Neutral / Unclear</text>
+    <rect x="440" y="168" width="12" height="12" fill="#3a4038"/>
+    <text x="460" y="178" fill="#6f7a71">Negative ROI</text>
+  </g>
+
+  <text x="70" y="222" fill="#6f7a71" font-size="11">Token costs rising faster than firms can price into products</text>
+</svg>

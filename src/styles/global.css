@@ -888,6 +888,12 @@ a.tbl-row:hover .name {
   margin: 0 0 14px;
 }
 
+.article-body img {
+  width: 100%;
+  height: auto;
+  margin: 18px 0 22px;
+}
+
 .article-body a {
   color: var(--accent);
 }
