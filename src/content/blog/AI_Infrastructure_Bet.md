@@ -1,3 +1,12 @@
+---
+title: "The AI capex supercycle is quietly rolling over"
+date: 2026-06-30
+tags: [AI, MARKETS]
+pinned: true
+description: "[One-line summary of the post for SEO/OG — replace me]"
+---
+
+
 # The AI Infrastructure Bet
 
 **Research Brief · Capital Markets · Q2 2026**
