@@ -70,26 +70,23 @@ export const RESOURCES = [
   {
     name: "Paul-Graham Essays",
     type: "BOOK",
-    why: "[why you recommend it — one tight line]",
-    href: "#",
-  },
+    //why: "[why you recommend it — one tight line]",
+    href: `${import.meta.env.BASE_URL}/PaulGraham-Essays.pdf`,
+ },
   {
     name: "AI engineering",
     type: "BOOK",
-    why: "[why you recommend it — one tight line]",
-    href: "#",
+    href: `${import.meta.env.BASE_URL}/ai-engineering-chip-huyen.pdf`,
   },
   {
-    name: "[resource name]",
-    type: "DATASET",
-    why: "[why you recommend it — one tight line]",
-    href: "#",
-  },
-  {
-    name: "[resource name]",
+    name: "Machine Learning Yearning (andrew-ng)",
     type: "BOOK",
-    why: "[why you recommend it — one tight line]",
-    href: "#",
+    href: `${import.meta.env.BASE_URL}/andrew-ng-machine-learning-yearning.pdf`,
+  },
+  {
+    name: "ML_notes-Standford(cs229)",
+    type: "Notes",
+    href: `${import.meta.env.BASE_URL}/cs229_andrewNG_Book.pdf`,
   },
 ];
 
