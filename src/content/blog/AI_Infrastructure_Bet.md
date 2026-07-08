@@ -12,7 +12,6 @@ description: "[One-line summary of the post for SEO/OG — replace me]"
 **Research Brief · Capital Markets · Q2 2026**
 
 ## A structural analysis of the 2026 compute build-out
-![AI Bubble](public/AI_fig1.png)
 A $725B/year capital cycle — a rational bet on future demand, or a classic overbuild in the making?
 
 ---
