@@ -1,0 +1,5 @@
+title: Getinvestage — source
+kind: repo
+note: FastAPI + React stock-analysis platform with RAG.
+order: 6
+url: https://github.com/hashamai/Stock-market
