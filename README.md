@@ -13,46 +13,56 @@ npm run build      # static build → dist/
 npm run preview    # serve the built site
 ```
 
-## Publishing a new blog post
+## Writing posts — the CMS (no code)
 
-1. Copy the template and give it a name — the filename becomes the URL
-   (`my-post.md` → `/blog/my-post`):
-
-   ```bash
-   cp "src/content/blog/_TEMPLATE.md" "src/content/blog/my-post.md"
-   ```
-
-2. Fill in the frontmatter. Only three fields are required:
-
-   ```yaml
-   ---
-   title: "My post title"
-   date: 2026-07-12
-   tags: [AI]          # any of: AI, TECH, MARKETS, RESEARCH
-   ---
-   ```
-
-   `pinned` (default `false`) and `description` are optional. If you leave
-   `description` out, the home page derives the excerpt from your first sentence.
-
-3. Write the body in normal markdown. That's it — the post appears automatically
-   in the **// writing** list, sorted newest first, with its reading time computed
-   for you. No index file to update.
-
-Files starting with `_` are ignored, so `_TEMPLATE.md` stays unpublished and you
-can park work-in-progress as `_draft-something.md` until it's ready.
-
-### Images in posts
-
-Put the file in `src/content/blog/images/` and use a **relative** path:
-
-```markdown
-![Alt text](./images/my-chart.png)
+```bash
+npm run cms      # then open http://localhost:4321/keystatic
 ```
 
-Astro then optimises it and rewrites the URL correctly for the deploy subpath.
-Works for `.png`, `.jpg`, `.webp`, and `.svg`. Avoid absolute `/images/...` paths —
-those skip the pipeline and break under the site's base path.
+This opens **Keystatic**, a visual editor. You get a rich text editor, a tag
+picker, a date picker, and drag-and-drop image upload — no markdown or frontmatter
+to hand-write. It edits **Blog posts** and **Projects**.
+
+Hit **Save** and it writes the markdown file straight into `src/content/`. Then
+publish it:
+
+```bash
+git add -A && git commit -m "New post" && git push
+```
+
+The push triggers `.github/workflows/deploy.yml`, which rebuilds and deploys —
+your post is live in a minute or two. Nothing else to update: the post appears in
+the **// writing** list automatically, sorted newest first, with reading time and
+excerpt computed for you.
+
+> The CMS runs locally, not on the live site. GitHub Pages serves static files
+> only, so there's no server to accept an edit from the deployed page — the editor
+> has to run on your machine and commit through git.
+
+Images dropped into the editor are saved to `src/content/blog/images/` and
+referenced relatively (`./images/foo.png`), which is what lets Astro optimise them
+and fix the URL for the deploy subpath.
+
+### Writing by hand instead
+
+You can still just create `src/content/blog/my-post.md`. Only three fields are
+required:
+
+```yaml
+---
+title: "My post title"
+date: 2026-07-12
+tags: [AI]          # any of: AI, TECH, MARKETS, RESEARCH
+---
+```
+
+`pinned` (default `false`) and `description` are optional — omit `description` and
+the excerpt is derived from your first sentence. Files starting with `_` are
+ignored, so you can park drafts as `_draft-something.md`.
+
+Reference images with a **relative** path (`![Alt](./images/chart.png)`). Avoid
+absolute `/images/...` paths — those skip Astro's pipeline and break under the
+site's base path.
 
 ## Where to edit content
 
