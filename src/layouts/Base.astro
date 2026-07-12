@@ -1,26 +1,40 @@
-#ticker
-
 ---
 import "../styles/global.css";
-import { withBase } from "../lib/site.ts";
+import { SITE, DEFAULT_ACCENT, withBase } from "../lib/site.ts";
 
 interface Props {
   title?: string;
   description?: string;
-  active?: "profile" | "projects" | "blog";
+  active?: "about" | "blog" | "projects" | "resources" | "contact";
   ogType?: string;
 }
 
 const {
-  title = "InsiderByHasham",
-  description = "",
+  title = SITE.title,
+  description = SITE.description,
   active,
   ogType = "website",
 } = Astro.props;
+
+// Nav points at the profile page's section anchors so it works from any route.
+const nav = [
+  { id: "about", label: "about", href: withBase("/#about") },
+  { id: "blog", label: "blog", href: withBase("/#writing") },
+  { id: "projects", label: "projects", href: withBase("/#projects") },
+  { id: "resources", label: "resources", href: withBase("/#resources") },
+  { id: "contact", label: "contact", href: withBase("/#contact") },
+];
+
+const swatches = [
+  { name: "terracotta", color: "#d97757" },
+  { name: "blue", color: "#5b8def" },
+  { name: "sage", color: "#7c9a76" },
+  { name: "violet", color: "#8b7fd9" },
+];
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark" data-accent={DEFAULT_ACCENT}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -30,115 +44,114 @@ const {
     <meta property="og:description" content={description} />
     <meta property="og:type" content={ogType} />
     <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site)} />
-    <link rel="icon" type="image/svg+xml" href={withBase("/favicon.svg")} />
+    <link rel="icon" type="image/svg+xml" href={withBase("/images/favicon.svg")} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
-    <script is:inline>
-      // Apply persisted theme + CRT setting before first paint (no flash).
+    <script is:inline define:vars={{ defaultAccent: DEFAULT_ACCENT }}>
+      // Restore theme + accent before first paint (no flash of wrong theme).
       (() => {
-        if (localStorage.getItem("ibh-theme") === "light") {
-          document.documentElement.classList.add("light");
-        }
-        if (localStorage.getItem("ibh-scanlines") === "off") {
-          document.documentElement.classList.add("crt-off");
-        }
+        const root = document.documentElement;
+        const theme = localStorage.getItem("ibh-theme") || "dark";
+        const accent = localStorage.getItem("ibh-accent") || defaultAccent;
+        root.setAttribute("data-theme", theme);
+        root.setAttribute("data-accent", accent);
       })();
     </script>
   </head>
   <body>
-    <div class="scanlines" aria-hidden="true"></div>
-
-    <header class="site-header">
-      <div class="container inner">
-        <a href={withBase("/")} class="brand">
-          <span class="badge">IBH</span>
-          <span>INSIDER_BY_HASHAM</span>
-          <span class="ver">v2.6.0</span>
+    <header class="topbar">
+      <div class="inner">
+        <a class="logo" href={withBase("/")}>
+          <span class="sigil">~/</span>{SITE.logo}
         </a>
-        <div style="flex: 1;"></div>
-        <nav class="site-nav" aria-label="Main">
-          <a href={withBase("/")} aria-current={active === "profile" ? "page" : undefined}>[1] PROFILE</a>
-          <a href={withBase("/projects")} aria-current={active === "projects" ? "page" : undefined}>[2] PROJECTS</a>
-          <a href={withBase("/blog")} aria-current={active === "blog" ? "page" : undefined}>[3] BLOG</a>
+
+        <nav class="topnav" aria-label="Main">
+          {
+            nav.map((n) => (
+              <a
+                href={n.href}
+                aria-current={active === n.id ? "page" : undefined}
+              >
+                {n.label}
+              </a>
+            ))
+          }
         </nav>
-        <div class="clock" data-clock>
-          <span data-clock-date></span>
-          <span class="time" data-clock-time></span>
+
+        <div class="bar-tools">
+          <div class="swatches" role="group" aria-label="Accent color">
+            {
+              swatches.map((s) => (
+                <button
+                  class="swatch"
+                  data-accent-swatch={s.name}
+                  style={`--sw:${s.color}`}
+                  title={`accent: ${s.name}`}
+                  aria-label={`accent ${s.name}`}
+                  aria-pressed="false"
+                />
+              ))
+            }
+          </div>
+          <button class="icon-btn" data-theme-toggle title="toggle light / dark" aria-label="Toggle theme">☾</button>
         </div>
-        <button class="chrome-btn" data-theme-toggle title="toggle dark / light">◐ THEME</button>
-        <button class="chrome-btn" data-crt-toggle title="toggle CRT scanlines">▓ CRT</button>
       </div>
     </header>
 
-    <div class="ticker" aria-hidden="true">
-      <div class="track">
-        <span
-          >SYS: AI /// TECH /// RESEARCH // MACHINE LEARNING // DEEP LEARNING ··· EST.2026 ···</span
-        >
-        <span
-          >SYS: AI /// TECH /// RESEARCH // MACHINE LEARNING // DEEP LEARNING ··· EST.2026 ···</span
-        >
-      </div>
-    </div>
-
-    <main class="container">
+    <main>
       <slot />
     </main>
 
-    <footer class="status-bar">
-      <div class="container inner" style="padding-left: 24px; padding-right: 24px;">
-        <span>[1][2][3] SWITCH TAB · ◐ THEME</span>
-        <span>© 2026 INSIDER_BY_HASHAM — NOT FINANCIAL ADVICE, JUST SIGNAL</span>
-        <span>SYNC <span class="time" data-sync-time></span></span>
+    <footer class="site-footer">
+      <div class="inner">
+        <span>© 2026 {SITE.name}</span>
+        <span>built in the terminal — not financial advice, just signal</span>
       </div>
     </footer>
 
     <script>
-      // Live clock (header + footer SYNC), ticks every second.
-      const p2 = (x: number) => String(x).padStart(2, "0");
-      const DAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
-      const dateEl = document.querySelector("[data-clock-date]");
-      const timeEl = document.querySelector("[data-clock-time]");
-      const syncEl = document.querySelector("[data-sync-time]");
+      const root = document.documentElement;
 
-      function tick() {
-        const n = new Date();
-        const date = `${n.getFullYear()}-${p2(n.getMonth() + 1)}-${p2(n.getDate())} ${DAYS[n.getDay()]}`;
-        const time = `${p2(n.getHours())}:${p2(n.getMinutes())}:${p2(n.getSeconds())}`;
-        if (dateEl) dateEl.textContent = date + " ";
-        if (timeEl) timeEl.textContent = time;
-        if (syncEl) syncEl.textContent = time;
-      }
-      tick();
-      setInterval(tick, 1000);
-
-      // Theme toggle, persisted to localStorage.
-      document.querySelector("[data-theme-toggle]")?.addEventListener("click", () => {
-        const light = document.documentElement.classList.toggle("light");
-        localStorage.setItem("ibh-theme", light ? "light" : "dark");
+      // Theme toggle, persisted.
+      const themeBtn = document.querySelector<HTMLButtonElement>("[data-theme-toggle]");
+      const syncThemeIcon = () => {
+        if (themeBtn)
+          themeBtn.textContent =
+            root.getAttribute("data-theme") === "light" ? "☀" : "☾";
+      };
+      syncThemeIcon();
+      themeBtn?.addEventListener("click", () => {
+        const next = root.getAttribute("data-theme") === "light" ? "dark" : "light";
+        root.setAttribute("data-theme", next);
+        localStorage.setItem("ibh-theme", next);
+        syncThemeIcon();
       });
 
-      // CRT scanlines toggle, persisted.
-      document.querySelector("[data-crt-toggle]")?.addEventListener("click", () => {
-        const off = document.documentElement.classList.toggle("crt-off");
-        localStorage.setItem("ibh-scanlines", off ? "off" : "on");
-      });
-
-      // Keyboard 1/2/3 route navigation (ignored inside inputs). BASE_URL is
-      // injected by Vite at build time so this works on the subpath deploy.
-      const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
-      window.addEventListener("keydown", (e) => {
-        const t = e.target as HTMLElement | null;
-        if (t && /INPUT|TEXTAREA|SELECT/.test(t.tagName)) return;
-        if (e.metaKey || e.ctrlKey || e.altKey) return;
-        if (e.key === "1") location.href = BASE + "/";
-        if (e.key === "2") location.href = BASE + "/projects";
-        if (e.key === "3") location.href = BASE + "/blog";
-      });
+      // Accent swatches, persisted.
+      const swatchBtns =
+        document.querySelectorAll<HTMLButtonElement>("[data-accent-swatch]");
+      const syncSwatches = () => {
+        const current = root.getAttribute("data-accent");
+        swatchBtns.forEach((b) =>
+          b.setAttribute(
+            "aria-pressed",
+            b.dataset.accentSwatch === current ? "true" : "false",
+          ),
+        );
+      };
+      syncSwatches();
+      swatchBtns.forEach((b) =>
+        b.addEventListener("click", () => {
+          const name = b.dataset.accentSwatch!;
+          root.setAttribute("data-accent", name);
+          localStorage.setItem("ibh-accent", name);
+          syncSwatches();
+        }),
+      );
     </script>
   </body>
 </html>

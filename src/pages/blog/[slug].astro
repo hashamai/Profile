@@ -19,25 +19,26 @@ const minutes = readingTime(post.body ?? "");
   description={post.data.description ?? post.data.title}
   ogType="article"
 >
-  <div class="pt-28">
-    <div class="breadcrumb" style="margin-bottom: 14px;">
-      <div class="prompt">
-        <span class="ps1">hasham@insider:~$</span> cat ./blog/{post.id}.md
+  <div class="wrap reader">
+    <a class="backlink" href={withBase("/#writing")}>← back to writing</a>
+
+    <header class="reader-head">
+      <h1>{post.data.title}</h1>
+      <div class="reader-meta">
+        <span>{fmtDate(post.data.date)}</span>
+        <span class="dot">{post.data.tags.join(" · ")}</span>
+        <span class="dot">{minutes} min read</span>
+        {post.data.pinned && <span class="pinned-chip">PINNED</span>}
       </div>
-      <a class="back-link" href={withBase("/blog")}>← BACK TO INDEX</a>
-    </div>
+    </header>
 
     <article class="article">
-      <header class="panel" style="padding: 20px 24px;">
-        <h1>{post.data.title}</h1>
-        <div class="article-meta">
-          {fmtDate(post.data.date)} · {post.data.tags.join(" · ")} · {minutes} MIN READ
-          {post.data.pinned && <span class="pinned-chip">PINNED</span>}
-        </div>
-      </header>
-      <div class="article-body" style="margin-top: 20px;">
-        <Content />
-      </div>
+      <Content />
     </article>
+
+    <div class="prevnext">
+      <a href={withBase("/#writing")}>← all posts</a>
+      <span></span>
+    </div>
   </div>
 </Base>

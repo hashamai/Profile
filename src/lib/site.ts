@@ -4,24 +4,40 @@
 
 export const SITE = {
   title: "InsiderByHasham — Muhammad Hasham.",
+  name: "Muhammad Hasham",
+  logo: "insidebyhasham",
+  tagline:
+    "Software engineering student building AI-powered market analysis — writing about AI, tech, and the markets.",
   description:
-  "Software Engineering student at FAST-NUCES currently building an AI-powered stock market analysis platform. Experienced in Python, FastAPI, React, C++, SQL, Linux, machine learning, and data structures, with projects spanning full-stack development, operating systems, and intelligent analytics.",
+    "Software Engineering student at FAST-NUCES currently building an AI-powered stock market analysis platform. Experienced in Python, FastAPI, React, C++, SQL, Linux, machine learning, and data structures, with projects spanning full-stack development, operating systems, and intelligent analytics.",
   handle: "@insiderbyhasham",
   role: "SWE Student · AI Engineer",
   location: "Faisalabad, PK · PKT",
   focus: "AI · TECH · MARKETS",
   openTo: "HIRE / COLLABORATE",
+  contactBlurb:
+    "Open to internships, collaboration, and interesting problems. The inbox is always open — say hello.",
   links: {
     github: "https://github.com/hashamai",
     linkedin: "https://linkedin.com/in/muhammad--hasham",
     x: "#",
     email: "mailto:hashamrashid55@gmail.com",
+    rss: "#",
   },
 };
 
+// ── Template tweaks ──────────────────────────────────────────────────────
+// Toggle the Resources section on the profile page.
+export const SHOW_RESOURCES = true;
+// Default accent applied on first visit (overridable via the top-bar swatches
+// and persisted to localStorage). One of: terracotta | blue | sage | violet.
+export const DEFAULT_ACCENT = "terracotta";
+
+// About prose. Any paragraph left as a "[bracketed placeholder]" is skipped at
+// render time, so it's safe to leave one here while you draft it.
 export const ABOUT_PARAGRAPHS = [
-  "Software Engineering student at FAST-NUCES currently building an AI-powered stock market analysis platform. Experienced in Python, FastAPI, React, C++, SQL, Linux, machine learning, and data structures, with projects spanning full-stack development, operating systems, and intelligent analytics.",
-  "[Why you started Insider — your edge and what readers get]",
+  "Software Engineering student at FAST-NUCES, currently building an AI-powered stock market analysis platform. I work across Python, FastAPI, React, C++, SQL, and Linux, with projects spanning full-stack development, operating systems, and machine learning.",
+  "I write Insider to think in public — breaking down AI infrastructure, market structure, and the systems underneath them, with sources cited and no hype.",
 ];
 
 export const EDUCATION = [
@@ -66,27 +82,45 @@ export const TOOLKIT = [
   { tool: "ML", bar: "██████░░░░", freq: "daily" },
 ];
 
+// Resources list. `kind` renders as a mono label (book / guide / repo / tool).
+// Local hrefs are root-relative (wrapped with withBase at render time); external
+// hrefs are full URLs and pass through unchanged.
 export const RESOURCES = [
   {
-    name: "Paul-Graham Essays",
-    type: "BOOK",
-    //why: "[why you recommend it — one tight line]",
-    href: `${import.meta.env.BASE_URL}/PaulGraham-Essays.pdf`,
- },
-  {
-    name: "AI engineering",
-    type: "BOOK",
-    href: `${import.meta.env.BASE_URL}/ai-engineering-chip-huyen.pdf`,
+    kind: "book",
+    title: "Paul Graham — Essays",
+    note: "Startups, taste, and writing that ages well.",
+    href: "/PaulGraham-Essays.pdf",
   },
   {
-    name: "Machine Learning Yearning (andrew-ng)",
-    type: "BOOK",
-    href: `${import.meta.env.BASE_URL}/andrew-ng-machine-learning-yearning.pdf`,
+    kind: "book",
+    title: "AI Engineering — Chip Huyen",
+    note: "Building production LLM systems end to end.",
+    href: "/ai-engineering-chip-huyen.pdf",
   },
   {
-    name: "ML_notes-Standford(cs229)",
-    type: "Notes",
-    href: `${import.meta.env.BASE_URL}/cs229_andrewNG_Book.pdf`,
+    kind: "guide",
+    title: "Machine Learning Yearning — Andrew Ng",
+    note: "How to structure ML projects that actually ship.",
+    href: "/andrew-ng-machine-learning-yearning.pdf",
+  },
+  {
+    kind: "guide",
+    title: "CS229 Notes — Stanford",
+    note: "Andrew Ng's classic machine-learning lecture notes.",
+    href: "/cs229_andrewNG_Book.pdf",
+  },
+  {
+    kind: "book",
+    title: "Fundamentals of Deep Learning",
+    note: "The math and intuition behind modern neural nets.",
+    href: "/fundamentals-of-deep-learning.pdf",
+  },
+  {
+    kind: "repo",
+    title: "Getinvestage — source",
+    note: "FastAPI + React stock-analysis platform with RAG.",
+    href: "https://github.com/hashamai/Stock-market",
   },
 ];
 

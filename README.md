@@ -1,6 +1,8 @@
 # InsiderByHasham
 
-Retro-terminal personal site (profile + projects + blog), built with Astro.
+Minimalist developer profile (about · education · writing · projects · resources ·
+contact), built with Astro. Dark terminal aesthetic with a light/dark toggle and a
+themeable accent colour.
 
 ## Run it
 
@@ -11,24 +13,82 @@ npm run build      # static build → dist/
 npm run preview    # serve the built site
 ```
 
-## Where to edit content
+## Publishing a new blog post
 
-Everything in `[brackets]` is placeholder copy — search for `[` to find it all.
+1. Copy the template and give it a name — the filename becomes the URL
+   (`my-post.md` → `/blog/my-post`):
+
+   ```bash
+   cp "src/content/blog/_TEMPLATE.md" "src/content/blog/my-post.md"
+   ```
+
+2. Fill in the frontmatter. Only three fields are required:
+
+   ```yaml
+   ---
+   title: "My post title"
+   date: 2026-07-12
+   tags: [AI]          # any of: AI, TECH, MARKETS, RESEARCH
+   ---
+   ```
+
+   `pinned` (default `false`) and `description` are optional. If you leave
+   `description` out, the home page derives the excerpt from your first sentence.
+
+3. Write the body in normal markdown. That's it — the post appears automatically
+   in the **// writing** list, sorted newest first, with its reading time computed
+   for you. No index file to update.
+
+Files starting with `_` are ignored, so `_TEMPLATE.md` stays unpublished and you
+can park work-in-progress as `_draft-something.md` until it's ready.
+
+### Images in posts
+
+Put the file in `src/content/blog/images/` and use a **relative** path:
+
+```markdown
+![Alt text](./images/my-chart.png)
+```
+
+Astro then optimises it and rewrites the URL correctly for the deploy subpath.
+Works for `.png`, `.jpg`, `.webp`, and `.svg`. Avoid absolute `/images/...` paths —
+those skip the pipeline and break under the site's base path.
+
+## Where to edit content
 
 | What | Where |
 |---|---|
-| Handle, role, links, about, education, now/toolkit, resources, activity | `src/lib/site.ts` |
-| Blog posts | `src/content/blog/*.md` (frontmatter: title, date, tags, pinned) |
-| Projects | `src/content/projects/*.md` (frontmatter: title, pitch, stack, status, year, role, order, links, screenshots, featured) |
-| Headshot | replace `public/headshot-placeholder.svg` |
-| Project screenshots | drop 1280×800 images in `public/screenshots/`, reference them in project frontmatter |
-| Deployed URL (for OG tags) | `site` in `astro.config.mjs` |
-| Newsletter form | `data-subscribe` form in `src/pages/blog/index.astro` — point `action` at your service |
+| Name, tagline, socials, about, education, contact blurb | `src/lib/site.ts` |
+| Resources list (books/guides/repos) | `RESOURCES` in `src/lib/site.ts` |
+| Show/hide the Resources section | `SHOW_RESOURCES` in `src/lib/site.ts` |
+| Default accent colour | `DEFAULT_ACCENT` in `src/lib/site.ts` |
+| Blog posts | `src/content/blog/*.md` |
+| Projects | `src/content/projects/*.md` |
+| Project screenshots | `public/screenshots/`, referenced in project frontmatter |
+| Resource PDFs | `public/*.pdf`, referenced by `RESOURCES` href |
+| Deploy URL + base path | `astro.config.mjs` |
 
-Computed automatically from content (don't hardcode): coverage matrix counts,
-blog stats line, project stats line, reading times, PUBLISHED activity events.
+Post counts, project counts, reading times, and excerpts are computed from
+content — don't hardcode them.
 
-## Keyboard
+### Adding a resource
 
-`1` / `2` / `3` switch between Profile / Projects / Blog. `◐ THEME` toggles
-dark/light (persisted), `▓ CRT` toggles the scanline overlay (persisted).
+Drop the PDF in `public/` (**use a filename with no spaces**) and add an entry:
+
+```ts
+{ kind: "book", title: "Title", note: "One line.", href: "/my-book.pdf" }
+```
+
+`kind` renders as the mono label — `book`, `guide`, `repo`, or `tool`. External
+links can use a full `https://` URL.
+
+## Theming
+
+The top bar has a ☾/☀ toggle (light/dark) and four accent swatches (terracotta,
+blue, sage, violet). Both persist to `localStorage` and are restored before first
+paint. Palettes live at the top of `src/styles/global.css` as CSS variables.
+
+## Deploying
+
+`base` in `astro.config.mjs` **must** match the GitHub repo name exactly, or every
+link and asset 404s on GitHub Pages.

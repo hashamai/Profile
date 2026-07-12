@@ -3,13 +3,16 @@ import { glob } from "astro/loaders";
 
 const TAGS = ["AI", "TECH", "MARKETS", "RESEARCH"] as const;
 
+// Files starting with "_" are ignored, so `_TEMPLATE.md` and any `_draft-*.md`
+// stay out of the published site until you rename them.
 const blog = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./src/content/blog" }),
+  loader: glob({ pattern: ["**/*.md", "!**/_*.md"], base: "./src/content/blog" }),
   schema: z.object({
     title: z.string(),
     date: z.coerce.date(),
     tags: z.array(z.enum(TAGS)).min(1),
     pinned: z.boolean().default(false),
+    // Optional: if omitted, the profile page derives an excerpt from the body.
     description: z.string().optional(),
   }),
 });
