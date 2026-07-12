@@ -3,6 +3,10 @@ import { getCollection, render } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import { withBase } from "../../lib/site.ts";
 
+// See the note in blog/[slug].astro — keeps this route prerendered under the
+// CMS config's SSR output, so getStaticPaths() still supplies the entry.
+export const prerender = true;
+
 export async function getStaticPaths() {
   const projects = (await getCollection("projects")).sort(
     (a, b) => a.data.order - b.data.order,

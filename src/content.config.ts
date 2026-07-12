@@ -40,4 +40,21 @@ const projects = defineCollection({
   }),
 });
 
-export const collections = { blog, projects };
+// Resources are YAML data files so they can be edited in the CMS. Each one links
+// to either an uploaded PDF (`file`) or an external URL (`url`).
+const resources = defineCollection({
+  loader: glob({
+    pattern: ["**/*.yaml", "!**/_*.yaml"],
+    base: "./src/content/resources",
+  }),
+  schema: z.object({
+    title: z.string(),
+    kind: z.enum(["book", "guide", "repo", "tool"]),
+    note: z.string(),
+    order: z.number().default(1),
+    file: z.string().nullable().optional(),
+    url: z.string().nullable().optional(),
+  }),
+});
+
+export const collections = { blog, projects, resources };

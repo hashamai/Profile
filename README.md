@@ -21,7 +21,13 @@ npm run cms      # then open http://localhost:4321/keystatic
 
 This opens **Keystatic**, a visual editor. You get a rich text editor, a tag
 picker, a date picker, and drag-and-drop image upload — no markdown or frontmatter
-to hand-write. It edits **Blog posts** and **Projects**.
+to hand-write. It edits everything:
+
+- **Content** — Blog posts, Projects, Resources (including uploading the PDF)
+- **Profile** — Info (name, tagline, socials), About, Education
+
+> ⚠️ The CMS writes and **deletes** real files. Commit before you start editing,
+> so anything you remove by accident is recoverable with `git checkout`.
 
 Hit **Save** and it writes the markdown file straight into `src/content/`. Then
 publish it:
@@ -68,29 +74,48 @@ site's base path.
 
 | What | Where |
 |---|---|
-| Name, tagline, socials, about, education, contact blurb | `src/lib/site.ts` |
-| Resources list (books/guides/repos) | `RESOURCES` in `src/lib/site.ts` |
+| Blog posts, Projects, Resources, Info, About, Education | **the CMS** (`npm run cms`) |
 | Show/hide the Resources section | `SHOW_RESOURCES` in `src/lib/site.ts` |
 | Default accent colour | `DEFAULT_ACCENT` in `src/lib/site.ts` |
-| Blog posts | `src/content/blog/*.md` |
-| Projects | `src/content/projects/*.md` |
-| Project screenshots | `public/screenshots/`, referenced in project frontmatter |
-| Resource PDFs | `public/*.pdf`, referenced by `RESOURCES` href |
 | Deploy URL + base path | `astro.config.mjs` |
+
+Underlying files, if you'd rather edit them by hand:
+
+| What | Files |
+|---|---|
+| Blog posts | `src/content/blog/*.md` |
+| Post images | `src/content/blog/images/` |
+| Projects | `src/content/projects/*.md` |
+| Project screenshots | `public/screenshots/` |
+| Resources (YAML **and** PDFs, same folder) | `src/content/resources/` |
+| Info / About / Education | `src/content/site/*.json` |
 
 Post counts, project counts, reading times, and excerpts are computed from
 content — don't hardcode them.
 
-### Adding a resource
+### Resources
 
-Drop the PDF in `public/` (**use a filename with no spaces**) and add an entry:
+YAML and PDFs live together in `src/content/resources/`. A resource points at
+**either** an uploaded PDF (`file`) or an external URL (`url`) — set one, leave the
+other blank. `kind` is the mono label: `book`, `guide`, `repo`, or `tool`.
 
-```ts
-{ kind: "book", title: "Title", note: "One line.", href: "/my-book.pdf" }
+`file` is just a **filename**, not a path:
+
+```yaml
+title: CS229 Notes — Stanford
+kind: guide
+note: Andrew Ng's classic lecture notes.
+order: 4
+file: cs229_andrewNG_Book.pdf
 ```
 
-`kind` renders as the mono label — `book`, `guide`, `repo`, or `tool`. External
-links can use a full `https://` URL.
+It's resolved by name at build time (`src/lib/resources.ts`), so it keeps working
+wherever the CMS files the upload. PDF-backed resources get an on-site reader page
+at `/resources/<slug>`; external ones link straight out.
+
+> **Filenames:** avoid spaces (they break URLs on GitHub Pages), and keep
+> directories lowercase — the CI build runs on Linux, which is case-sensitive
+> even though Windows isn't.
 
 ## Theming
 

@@ -1,0 +1,53 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import { withBase } from "../../lib/site.ts";
+import { pdfUrl } from "../../lib/resources.ts";
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const resources = await getCollection("resources");
+  // Only PDF-backed resources get a reader page; external links go straight out.
+  return resources
+    .filter((r) => pdfUrl(r.data.file))
+    .map((r) => ({ params: { slug: r.id }, props: { resource: r } }));
+}
+
+const { resource } = Astro.props;
+const d = resource.data;
+const src = pdfUrl(d.file)!;
+---
+
+<Base
+  active="resources"
+  title={`${d.title} — InsiderByHasham`}
+  description={d.note}
+>
+  <div class="wrap reader">
+    <a class="backlink" href={withBase("/#resources")}>← back to resources</a>
+
+    <header class="reader-head">
+      <h1>{d.title}</h1>
+      <div class="reader-meta">
+        <span class="pinned-chip">{d.kind}</span>
+        <span class="dot">{d.note}</span>
+      </div>
+    </header>
+
+    <div class="detail-facts">
+      <a href={src} target="_blank" rel="noopener" style="color:var(--accent)">
+        open in new tab ↗
+      </a>
+      <a href={src} download style="color:var(--accent)">download ↓</a>
+    </div>
+
+    <!-- Native browser PDF viewer, embedded in the page. -->
+    <object class="pdf-frame" data={src} type="application/pdf">
+      <p>
+        Your browser can't display PDFs inline.
+        <a href={src} target="_blank" rel="noopener">Open {d.title} ↗</a>
+      </p>
+    </object>
+  </div>
+</Base>

@@ -1,4 +1,4 @@
-import { config, collection, fields } from "@keystatic/core";
+import { config, collection, fields, singleton } from "@keystatic/core";
 
 // Local CMS. Run `npm run cms`, then open http://localhost:4321/keystatic
 //
@@ -12,7 +12,8 @@ export default config({
   ui: {
     brand: { name: "InsiderByHasham" },
     navigation: {
-      Content: ["posts", "projects"],
+      Content: ["posts", "projects", "resources"],
+      Profile: ["info", "about", "education"],
     },
   },
 
@@ -167,6 +168,152 @@ export default config({
               publicPath: "/screenshots/",
             },
           },
+        }),
+      },
+    }),
+
+    // ── Resources ───────────────────────────────────────────────────────
+    resources: collection({
+      label: "Resources",
+      slugField: "title",
+      path: "src/content/resources/*",
+      // Data-only entries (no markdown body) — written as .yaml files.
+      format: { data: "yaml" },
+      columns: ["title", "kind"],
+      schema: {
+        title: fields.slug({
+          name: { label: "Title", validation: { isRequired: true } },
+        }),
+        kind: fields.select({
+          label: "Kind",
+          description: "Shown as the mono label next to the title.",
+          options: [
+            { label: "book", value: "book" },
+            { label: "guide", value: "guide" },
+            { label: "repo", value: "repo" },
+            { label: "tool", value: "tool" },
+          ],
+          defaultValue: "book",
+        }),
+        note: fields.text({
+          label: "Note",
+          description: "One line describing why it's worth reading.",
+          validation: { isRequired: true },
+        }),
+        order: fields.integer({
+          label: "Order",
+          description: "Lower numbers appear first.",
+          defaultValue: 1,
+          validation: { isRequired: true },
+        }),
+        // Uploads land next to the YAML, under src/content/resources/. Keystatic
+        // namespaces them by entry slug, so the stored value is resolved by
+        // FILENAME at build time (see src/lib/resources.ts) — the exact folder
+        // doesn't matter.
+        file: fields.file({
+          label: "PDF",
+          description:
+            "Upload a PDF. Leave empty if you're linking somewhere external instead.",
+          directory: "src/content/resources",
+          publicPath: "",
+        }),
+        url: fields.text({
+          label: "External URL",
+          description:
+            "Used only when no PDF is uploaded — e.g. a GitHub repo or a tool.",
+        }),
+      },
+    }),
+  },
+
+  // ── Profile singletons (the hero, about, and education sections) ────────
+  singletons: {
+    info: singleton({
+      label: "Info",
+      path: "src/content/site/profile",
+      format: { data: "json" },
+      schema: {
+        name: fields.text({
+          label: "Name",
+          description: "Shown as the big heading in the hero.",
+          validation: { isRequired: true },
+        }),
+        logo: fields.text({
+          label: "Logo text",
+          description: "Appears in the top bar after the ~/ .",
+          validation: { isRequired: true },
+        }),
+        tagline: fields.text({
+          label: "Tagline",
+          description: "One line under your name in the hero.",
+          multiline: true,
+          validation: { isRequired: true },
+        }),
+        description: fields.text({
+          label: "SEO description",
+          description: "Used for search engines and link previews.",
+          multiline: true,
+          validation: { isRequired: true },
+        }),
+        contactBlurb: fields.text({
+          label: "Contact blurb",
+          description: "The line above your social pills.",
+          multiline: true,
+          validation: { isRequired: true },
+        }),
+        github: fields.text({ label: "GitHub URL" }),
+        linkedin: fields.text({ label: "LinkedIn URL" }),
+        x: fields.text({ label: "X URL" }),
+        email: fields.text({
+          label: "Email",
+          description: "Include the mailto: prefix.",
+        }),
+        rss: fields.text({ label: "RSS URL" }),
+      },
+    }),
+
+    about: singleton({
+      label: "About",
+      path: "src/content/site/about",
+      format: { data: "json" },
+      schema: {
+        paragraphs: fields.array(
+          fields.text({ label: "Paragraph", multiline: true }),
+          {
+            label: "Paragraphs",
+            itemLabel: (props) =>
+              props.value.slice(0, 50) || "Paragraph",
+          },
+        ),
+      },
+    }),
+
+    education: singleton({
+      label: "Education",
+      path: "src/content/site/education",
+      format: { data: "json" },
+      schema: {
+        entries: fields.array(
+          fields.object({
+            degree: fields.text({
+              label: "Degree",
+              validation: { isRequired: true },
+            }),
+            institution: fields.text({
+              label: "Institution",
+              validation: { isRequired: true },
+            }),
+            years: fields.text({ label: "Years" }),
+            result: fields.text({ label: "Result" }),
+          }),
+          {
+            label: "Entries",
+            itemLabel: (props) => props.fields.degree.value || "Entry",
+          },
+        ),
+        certs: fields.text({
+          label: "Certifications",
+          description: "Leave blank to hide the certs line.",
         }),
       },
     }),

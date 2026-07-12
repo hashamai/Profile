@@ -3,7 +3,6 @@ import { getCollection } from "astro:content";
 import Base from "../layouts/Base.astro";
 import {
   SITE,
-  RESOURCES,
   SHOW_RESOURCES,
   ABOUT_PARAGRAPHS,
   EDUCATION,
@@ -11,6 +10,17 @@ import {
   fmtDate,
   withBase,
 } from "../lib/site.ts";
+import { pdfUrl } from "../lib/resources.ts";
+
+// Resources are a content collection so they're editable in the CMS. A PDF-backed
+// resource opens in the on-site reader; an external one links straight out.
+const resources = (await getCollection("resources")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+const resourceLink = (r: (typeof resources)[number]) =>
+  pdfUrl(r.data.file)
+    ? { href: withBase(`/resources/${r.id}`), external: false }
+    : { href: r.data.url ?? "#", external: true };
 
 // Unfilled "[bracketed]" placeholders are hidden rather than printed.
 const isPlaceholder = (s: string) => !s || s.trim().startsWith("[");
@@ -153,22 +163,25 @@ const socials = [
     {
       SHOW_RESOURCES && (
         <section class="block" id="resources">
-          <h2 class="eyebrow">// resources <span class="count">{RESOURCES.length}</span></h2>
-          {RESOURCES.map((r) => (
-            <a
-              class="resource"
-              href={withBase(r.href)}
-              target="_blank"
-              rel="noopener"
-            >
-              <span class="kind">{r.kind}</span>
-              <span class="r-main">
-                <span class="r-title">{r.title}</span>
-                <span class="r-note"> — {r.note}</span>
-              </span>
-              <span class="r-arrow">↗</span>
-            </a>
-          ))}
+          <h2 class="eyebrow">// resources <span class="count">{resources.length}</span></h2>
+          {resources.map((r) => {
+            const link = resourceLink(r);
+            return (
+              <a
+                class="resource"
+                href={link.href}
+                target={link.external ? "_blank" : undefined}
+                rel={link.external ? "noopener" : undefined}
+              >
+                <span class="kind">{r.data.kind}</span>
+                <span class="r-main">
+                  <span class="r-title">{r.data.title}</span>
+                  <span class="r-note"> — {r.data.note}</span>
+                </span>
+                <span class="r-arrow">{link.external ? "↗" : "read →"}</span>
+              </a>
+            );
+          })}
         </section>
       )
     }

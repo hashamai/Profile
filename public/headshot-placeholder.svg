@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
-  <rect width="400" height="400" fill="#121616"/>
-  <rect x="8" y="8" width="384" height="384" fill="none" stroke="#6f7a71" stroke-width="2" stroke-dasharray="10 8"/>
-  <text x="200" y="196" font-family="monospace" font-size="18" fill="#6f7a71" text-anchor="middle">drop ID photo</text>
-  <text x="200" y="222" font-family="monospace" font-size="13" fill="#3d453f" text-anchor="middle">[ replace headshot-placeholder.svg ]</text>
-</svg>
